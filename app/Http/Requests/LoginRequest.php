@@ -22,7 +22,9 @@ class LoginRequest extends ApiRequest
     public function authenticate()
     {
         if (!Auth::attempt($this->only('email', 'password'))) {
-            abort(422);
+            $validator = \Validator::make($this->only('email', 'password'), $this->rules());
+            $validator->errors()->add('email', 'Неправильная почта или пароль');
+            $this->failedValidation($validator);
         }
     }
 }
