@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Регистрация
+
     public function register(RegisterRequest $request)
     {
         $user = User::create([
@@ -31,7 +31,6 @@ class UserController extends Controller
         ], 201);
     }
 
-    // Вход
     public function login(LoginRequest $request)
     {
         $request->authenticate();
@@ -47,17 +46,20 @@ class UserController extends Controller
         ]);
     }
 
-    // Выход
     public function logout(Request $request)
     {
+        $user = auth('sanctum')->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated.'], 401);
+        }
+
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Вы вышли из аккаунта'
-        ]);
+        return response()->json(['message' => 'Logged out successfully.']);
     }
 
-    // Данные пользователя
+
     public function me(Request $request)
     {
         return response()->json([
@@ -65,7 +67,6 @@ class UserController extends Controller
         ]);
     }
 
-    // Удаление аккаунта
     public function destroy(DeleteAccountRequest $request)
     {
         $user = $request->user();

@@ -11,7 +11,6 @@ use App\Http\Requests\CancelBookingRequest;
 
 class BookingController extends Controller
 {
-    //Бронирование номера
     public function store(BookingRequest $request)
     {
 
@@ -47,7 +46,6 @@ class BookingController extends Controller
         ], 201);
     }
 
-    //Список бронирований пользователя
     public function index()
     {
         $bookings = Booking::with(['room', 'user'])
@@ -68,8 +66,7 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
-    //Отмена бронирования
-    public function destroy($id)
+    public function destroy(CancelBookingRequest $request, $id)
     {
 
         $booking = Booking::where('user_id', auth()->id())

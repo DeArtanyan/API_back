@@ -9,7 +9,6 @@ use App\Http\Requests\DeleteHotelReviewRequest;
 
 class HotelReviewController extends Controller
 {
-    // Получить все отзывы об отеле
     public function index(): JsonResponse
     {
         $reviews = HotelReview::with('user')->latest()->get()->map(function($review) {
@@ -25,7 +24,6 @@ class HotelReviewController extends Controller
         return response()->json($reviews);
     }
 
-    // Добавить отзыв
     public function store(StoreHotelReviewRequest $request): JsonResponse
     {
         $review = HotelReview::create([
@@ -47,7 +45,6 @@ class HotelReviewController extends Controller
         ], 201);
     }
 
-    // Удалить отзыв
     public function destroy(DeleteHotelReviewRequest $request, HotelReview $review): JsonResponse
     {
         $review->delete();

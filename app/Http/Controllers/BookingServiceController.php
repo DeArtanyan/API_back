@@ -9,7 +9,6 @@ use App\Models\Service;
 
 class BookingServiceController extends Controller
 {
-    //Забронировать услугу
     public function addService(AddServiceRequest $request, $bookingId, $serviceId)
     {
         $booking = Booking::find($bookingId);
@@ -24,7 +23,6 @@ class BookingServiceController extends Controller
         ], 201);
     }
 
-    //Отменить услугу
     public function removeService(RemoveServiceRequest $request, $bookingId, $serviceId)
     {
         $booking = Booking::find($bookingId);
@@ -35,7 +33,6 @@ class BookingServiceController extends Controller
         ]);
     }
 
-    //Список забронированых услуг
     public function listServices($bookingId)
     {
         $booking = Booking::with(['services' => function($query) {

@@ -25,7 +25,7 @@ class RateRoomRequest extends ApiRequest
             response()->json([
                 'message' => 'ошибка валидации',
                 'errors' => $validator->errors()
-            ])
+            ], 422)
         );
     }
 }

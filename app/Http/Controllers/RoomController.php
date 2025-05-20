@@ -11,7 +11,6 @@ use App\Http\Requests\DeleteRatingRequest;
 
 class RoomController extends Controller
 {
-    //Список всех номеров
     public function index(): JsonResponse
     {
         $rooms = Room::all()->map(function ($room) {
@@ -33,7 +32,6 @@ class RoomController extends Controller
     {
         $room = Room::findOrFail($id);
 
-        // Сохраняем оценку пользователя
         RoomRating::updateOrCreate(
             [
                 'user_id' => auth()->id(),
@@ -44,7 +42,6 @@ class RoomController extends Controller
             ]
         );
 
-        //Обновление оценок
         $room->update([
             'rating_sum' => $room->rating_sum + $request->rating,
             'rating_count' => $room->rating_count + 1
@@ -56,7 +53,6 @@ class RoomController extends Controller
         ]);
     }
 
-    // Удаление оценки
     public function deleteRating($roomId): JsonResponse
     {
         $room = Room::findOrFail($roomId);
